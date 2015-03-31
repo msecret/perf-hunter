@@ -7,11 +7,16 @@
     "test": "test"
   },
   "dependencies": {
+  },
+  "devDependencies": {
     "duo-test": "^0.3.13"
   },
-  "devDependencies": {},
+  "config": {
+    "unitdir": "test/unit"
+  },
   "scripts": {
-    "test": "duo-test -c npm run test -P 3000 phantomjs",
+    "build": "duo --stdout test/unit/index_test.js > build.js",
+    "test-unit": "duo-test -p test/unit/ phantomjs",
     "test-all": "./node_modules/.bin/duo-test -c npm run test -P 3000 saucelabs"
   },
   "repository": {
