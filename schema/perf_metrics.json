@@ -1,0 +1,15 @@
+{
+  "speedIndex": {
+    "type": "integer",
+    "format": "int32"
+    "description": "Best estimate at the Speed Index, calculated with web page test",
+    "example": "2234"
+  },
+  "performanceTiming": {
+    "type": {
+      "name": "PerformanceTiming",
+      "link": "https://developer.mozilla.org/en-US/docs/Web/API/PerformanceTiming"
+    }
+    "description": "Performance timing data from performance.timing DOM interface"
+  }
+}

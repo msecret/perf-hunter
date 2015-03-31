@@ -15,7 +15,8 @@
     "build": "duo --stdout src/perf-hunter.js > build/index.js",
     "build-test": "duo --stdout test/unit/index_test.js > build/test.js",
     "test": "npm run test-unit",
-    "test-unit": "npm run build-test && duo-test -B build/test.js -p test/unit/ phantomjs"
+    "test-unit": "npm run build-test && duo-test -B build/test.js -p test/unit/ phantomjs",
+    "test-unitb": "npm run build-test && duo-test -B build/test.js -p test/unit/ browser"
   },
   "repository": {
     "type": "git",
