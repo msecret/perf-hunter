@@ -1,0 +1,26 @@
+{
+  "name": "perf-hunter",
+  "version": "0.0.1",
+  "description": "Collects performance metrics in the browser",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "duo-test": "^0.3.13"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/msecret/perf-hunter.git"
+  },
+  "author": "msecret",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/msecret/perf-hunter/issues"
+  },
+  "homepage": "https://github.com/msecret/perf-hunter"
+}
