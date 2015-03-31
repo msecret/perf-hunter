@@ -1,6 +1,6 @@
-describe('index', function(){
+describe('perf-hunter', function(){
   var assert = require('component/assert');
-  var index = require('../../index');
+  var index = require('../../src/perf-hunter');
 
   describe('()', function(){
     it('should return new cache', function(){
