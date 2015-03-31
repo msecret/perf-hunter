@@ -1,6 +1,6 @@
 T= ./node_modules/.bin/duo-test -c make -P 3000
 
-build.js: test/test.js
+build.js: test/index_test.js
 	@duo --stdout $< > build.js
 
 test-browser:

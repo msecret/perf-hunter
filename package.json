@@ -11,7 +11,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "npm run test"
+    "test": "duo-test -c npm run test -P 3000 phantomjs",
+    "test-all": "./node_modules/.bin/duo-test -c npm run test -P 3000 saucelabs"
   },
   "repository": {
     "type": "git",
