@@ -6,10 +6,10 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
-    "duo-test": "^0.3.13"
+    "duo-test": "^0.3.13",
+    "sinon": "^1.14.1"
   },
   "scripts": {
     "build": "duo --stdout src/perf-hunter.js > build/index.js",
