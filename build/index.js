@@ -1,1 +1,397 @@
-!function e(t,r,n){function i(e,n){if(r[e])return r[e].exports;if(t[e])return a(e,i);throw new Error('cannot find module "'+e+'"')}function a(i,a){var o={exports:{}},m=t[i],c=m[2],f=m[0];return f.call(o.exports,function(e){var r=t[i][1][e];return a(r||e)},o,o.exports,e,t,r,n),r[i]=o,c&&(r[c]=r[i]),r[i].exports}var o=function(){return this}();for(var m in n)n[m]?o[n[m]]=i(m):i(m);return i.duo=!0,i.cache=r,i.modules=t,i}({1:[function(e,t,r){var n=e("msecret/RUM-SpeedIndex"),i={hunt:function(e){var t={};return t.speedIndex=n(),t.performanceTiming=this.performanceTimings(e||window),t},performanceTimings:function(e){return e.performance&&e.performance.timing?e.performance.timing:void 0}};t.exports=i},{"msecret/RUM-SpeedIndex":2}],2:[function(e,t,r){var n=function(e){e=e||window;var t,r,i=e.document,a=function(t){var r=!1;if(t.getBoundingClientRect){var n=t.getBoundingClientRect();r={top:Math.max(n.top,0),left:Math.max(n.left,0),bottom:Math.min(n.bottom,e.innerHeight||i.documentElement.clientHeight),right:Math.min(n.right,e.innerWidth||i.documentElement.clientWidth)},r.bottom<=r.top||r.right<=r.left?r=!1:r.area=(r.bottom-r.top)*(r.right-r.left)}return r},o=function(e,t){if(t){var r=a(e);r&&g.push({url:t,area:r.area,rect:r})}},m=function(){for(var t=i.getElementsByTagName("*"),r=/url\((http.*)\)/gi,m=0;m<t.length;m++){var c=t[m],f=e.getComputedStyle(c);if("IMG"==c.tagName&&o(c,c.src),f["background-image"]){r.lastIndex=0;var s=r.exec(f["background-image"]);s&&s.length>1&&o(c,s[1])}if("IFRAME"==c.tagName)try{var u=a(c);if(u){var h=n(c.contentWindow);h&&g.push({tm:h,area:u.area,rect:u})}}catch(l){}}},c=function(){for(var t={},r=e.performance.getEntriesByType("resource"),n=0;n<r.length;n++)t[r[n].name]=r[n].responseEnd;for(var i=0;i<g.length;i++)"tm"in g[i]||(g[i].tm=void 0!==t[g[i].url]?t[g[i].url]:0)},f=function(){if("msFirstPaint"in e.performance.timing&&(t=e.performance.timing.msFirstPaint-p),"chrome"in e&&"loadTimes"in e.chrome){var r=e.chrome.loadTimes();if("firstPaintTime"in r&&r.firstPaintTime>0){var n=r.startLoadTime;"requestTime"in r&&(n=r.requestTime),r.firstPaintTime>=n&&(t=1e3*(r.firstPaintTime-n))}}if(void 0===t||0>t||t>12e4){t=e.performance.timing.responseStart-p;for(var a={},o=i.getElementsByTagName("head")[0].children,m=0;m<o.length;m++){var c=o[m];"SCRIPT"==c.tagName&&c.src&&!c.async&&(a[c.src]=!0),"LINK"==c.tagName&&"stylesheet"==c.rel&&c.href&&(a[c.href]=!0)}for(var f=e.performance.getEntriesByType("resource"),s=!1,u=0;u<f.length;u++)if(s||!a[f[u].name]||"script"!=f[u].initiatorType&&"link"!=f[u].initiatorType)s=!0;else{var g=f[u].responseEnd;(void 0===t||g>t)&&(t=g)}}t=Math.max(t,0)},s=function(){for(var r={0:0},n=0,a=0;a<g.length;a++){var o=t;"tm"in g[a]&&g[a].tm>t&&(o=g[a].tm),void 0===r[o]&&(r[o]=0),r[o]+=g[a].area,n+=g[a].area}var m=Math.max(i.documentElement.clientWidth,e.innerWidth||0)*Math.max(i.documentElement.clientHeight,e.innerHeight||0);if(m>0&&(m=Math.max(m-n,0)*l,void 0===r[t]&&(r[t]=0),r[t]+=m,n+=m),n){for(var c in r)r.hasOwnProperty(c)&&h.push({tm:c,area:r[c]});h.sort(function(e,t){return e.tm-t.tm});for(var f=0,s=0;s<h.length;s++)f+=h[s].area,h[s].progress=f/n}},u=function(){if(h.length){r=0;for(var e=0,n=0,i=0;i<h.length;i++){var a=h[i].tm-e;a>0&&1>n&&(r+=(1-n)*a),e=h[i].tm,n=h[i].progress}}else r=t},g=[],h=[],l=.1;try{var p=e.performance.timing.navigationStart;m(),c(),f(),s(),u()}catch(d){}return r};t.exports=n},{}]},{},{1:""});
+(function outer(modules, cache, entries){
+
+  /**
+   * Global
+   */
+
+  var global = (function(){ return this; })();
+
+  /**
+   * Require `name`.
+   *
+   * @param {String} name
+   * @param {Boolean} jumped
+   * @api public
+   */
+
+  function require(name, jumped){
+    if (cache[name]) return cache[name].exports;
+    if (modules[name]) return call(name, require);
+    throw new Error('cannot find module "' + name + '"');
+  }
+
+  /**
+   * Call module `id` and cache it.
+   *
+   * @param {Number} id
+   * @param {Function} require
+   * @return {Function}
+   * @api private
+   */
+
+  function call(id, require){
+    var m = { exports: {} };
+    var mod = modules[id];
+    var name = mod[2];
+    var fn = mod[0];
+
+    fn.call(m.exports, function(req){
+      var dep = modules[id][1][req];
+      return require(dep || req);
+    }, m, m.exports, outer, modules, cache, entries);
+
+    // store to cache after successful resolve
+    cache[id] = m;
+
+    // expose as `name`.
+    if (name) cache[name] = cache[id];
+
+    return cache[id].exports;
+  }
+
+  /**
+   * Require all entries exposing them on global if needed.
+   */
+
+  for (var id in entries) {
+    if (entries[id]) {
+      global[entries[id]] = require(id);
+    } else {
+      require(id);
+    }
+  }
+
+  /**
+   * Duo flag.
+   */
+
+  require.duo = true;
+
+  /**
+   * Expose cache.
+   */
+
+  require.cache = cache;
+
+  /**
+   * Expose modules
+   */
+
+  require.modules = modules;
+
+  /**
+   * Return newest require.
+   */
+
+   return require;
+})({
+1: [function(require, module, exports) {
+/**
+ * Created by msecret on 4/10/15.
+ */
+
+var perfHunter = require('./perf-hunter');
+
+window.perfHunter = perfHunter;
+
+}, {"./perf-hunter":2}],
+2: [function(require, module, exports) {
+var SpeedIndex = require('msecret/RUM-SpeedIndex');
+
+var hunter = {
+  hunt: function(passedWindow) {
+    var results = {};
+
+    results.speedIndex = SpeedIndex();
+    results.performanceTiming = this.performanceTimings(passedWindow || window);
+
+    return results;
+  },
+  performanceTimings: function(window) {
+    if (window.performance && window.performance.timing) {
+      return window.performance.timing;
+    }
+  }
+};
+
+module.exports = hunter;
+
+}, {"msecret/RUM-SpeedIndex":3}],
+3: [function(require, module, exports) {
+/******************************************************************************
+Copyright (c) 2014, Google Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice,
+      this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice,
+      this list of conditions and the following disclaimer in the documentation
+      and/or other materials provided with the distribution.
+    * Neither the name of the <ORGANIZATION> nor the names of its contributors
+    may be used to endorse or promote products derived from this software
+    without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+******************************************************************************/
+
+/******************************************************************************
+*******************************************************************************
+  Calculates the Speed Index for a page by:
+  - Collecting a list of visible rectangles for elements that loaded
+    external resources (images, background images, fonts)
+  - Gets the time when the external resource for those elements loaded
+    through Resource Timing
+  - Calculates the likely time that the background painted
+  - Runs the various paint rectangles through the SpeedIndex calculation:
+    https://sites.google.com/a/webpagetest.org/docs/using-webpagetest/metrics/speed-index
+
+  TODO:
+  - Improve the start render estimate
+  - Handle overlapping rects (though maybe counting the area as multiple paints
+    will work out well)
+  - Detect elements with Custom fonts and the time that the respective font
+    loaded
+  - Better error handling for browsers that don't support resource timing
+*******************************************************************************
+******************************************************************************/
+
+var RUMSpeedIndex = function(win) {
+  win = win || window;
+  var doc = win.document;
+
+  /****************************************************************************
+    Support Routines
+  ****************************************************************************/
+  // Get the rect for the visible portion of the provided DOM element
+  var GetElementViewportRect = function(el) {
+    var intersect = false;
+    if (el.getBoundingClientRect) {
+      var elRect = el.getBoundingClientRect();
+      intersect = {'top': Math.max(elRect.top, 0),
+                       'left': Math.max(elRect.left, 0),
+                       'bottom': Math.min(elRect.bottom, (win.innerHeight || doc.documentElement.clientHeight)),
+                       'right': Math.min(elRect.right, (win.innerWidth || doc.documentElement.clientWidth))};
+      if (intersect.bottom <= intersect.top ||
+          intersect.right <= intersect.left) {
+        intersect = false;
+      } else {
+        intersect.area = (intersect.bottom - intersect.top) * (intersect.right - intersect.left);
+      }
+    }
+    return intersect;
+  };
+
+  // Check a given element to see if it is visible
+  var CheckElement = function(el, url) {
+    if (url) {
+      var rect = GetElementViewportRect(el);
+      if (rect) {
+        rects.push({'url': url,
+                     'area': rect.area,
+                     'rect': rect});
+      }
+    }
+  };
+
+  // Get the visible rectangles for elements that we care about
+  var GetRects = function() {
+    // Walk all of the elements in the DOM (try to only do this once)
+    var elements = doc.getElementsByTagName('*');
+    var re = /url\((http.*)\)/ig;
+    for (var i = 0; i < elements.length; i++) {
+      var el = elements[i];
+      var style = win.getComputedStyle(el);
+
+      // check for Images
+      if (el.tagName == 'IMG') {
+        CheckElement(el, el.src);
+      }
+      // Check for background images
+      if (style['background-image']) {
+        re.lastIndex = 0;
+        var matches = re.exec(style['background-image']);
+        if (matches && matches.length > 1)
+          CheckElement(el, matches[1]);
+      }
+      // recursively walk any iFrames
+      if (el.tagName == 'IFRAME') {
+        try {
+          var rect = GetElementViewportRect(el);
+          if (rect) {
+            var tm = RUMSpeedIndex(el.contentWindow);
+            if (tm) {
+              rects.push({'tm': tm,
+                          'area': rect.area,
+                          'rect': rect});
+            }
+        }
+        } catch(e) {
+        }
+      }
+    }
+  };
+
+  // Get the time at which each external resource loaded
+  var GetRectTimings = function() {
+    var timings = {};
+    var requests = win.performance.getEntriesByType("resource");
+    for (var i = 0; i < requests.length; i++)
+      timings[requests[i].name] = requests[i].responseEnd;
+    for (var j = 0; j < rects.length; j++) {
+      if (!('tm' in rects[j]))
+        rects[j].tm = timings[rects[j].url] !== undefined ? timings[rects[j].url] : 0;
+    }
+  };
+
+  // Get the first paint time.
+  var GetFirstPaint = function() {
+    // If the browser supports a first paint event, just use what the browser reports
+    if ('msFirstPaint' in win.performance.timing)
+      firstPaint = win.performance.timing.msFirstPaint - navStart;
+    if ('chrome' in win && 'loadTimes' in win.chrome) {
+      var chromeTimes = win.chrome.loadTimes();
+      if ('firstPaintTime' in chromeTimes && chromeTimes.firstPaintTime > 0) {
+        var startTime = chromeTimes.startLoadTime;
+        if ('requestTime' in chromeTimes)
+          startTime = chromeTimes.requestTime;
+        if (chromeTimes.firstPaintTime >= startTime)
+          firstPaint = (chromeTimes.firstPaintTime - startTime) * 1000.0;
+      }
+    }
+    // For browsers that don't support first-paint or where we get insane values,
+    // use the time of the last non-async script or css from the head.
+    if (firstPaint === undefined || firstPaint < 0 || firstPaint > 120000) {
+      firstPaint = win.performance.timing.responseStart - navStart;
+      var headURLs = {};
+      var headElements = doc.getElementsByTagName('head')[0].children;
+      for (var i = 0; i < headElements.length; i++) {
+        var el = headElements[i];
+        if (el.tagName == 'SCRIPT' && el.src && !el.async)
+          headURLs[el.src] = true;
+        if (el.tagName == 'LINK' && el.rel == 'stylesheet' && el.href)
+          headURLs[el.href] = true;
+      }
+      var requests = win.performance.getEntriesByType("resource");
+      var doneCritical = false;
+      for (var j = 0; j < requests.length; j++) {
+        if (!doneCritical &&
+            headURLs[requests[j].name] &&
+           (requests[j].initiatorType == 'script' || requests[j].initiatorType == 'link')) {
+          var requestEnd = requests[j].responseEnd;
+          if (firstPaint === undefined || requestEnd > firstPaint)
+            firstPaint = requestEnd;
+        } else {
+          doneCritical = true;
+        }
+      }
+    }
+    firstPaint = Math.max(firstPaint, 0);
+  };
+
+  // Sort and group all of the paint rects by time and use them to
+  // calculate the visual progress
+  var CalculateVisualProgress = function() {
+    var paints = {'0':0};
+    var total = 0;
+    for (var i = 0; i < rects.length; i++) {
+      var tm = firstPaint;
+      if ('tm' in rects[i] && rects[i].tm > firstPaint)
+        tm = rects[i].tm;
+      if (paints[tm] === undefined)
+        paints[tm] = 0;
+      paints[tm] += rects[i].area;
+      total += rects[i].area;
+    }
+    // Add a paint area for the page background (count 10% of the pixels not
+    // covered by existing paint rects.
+    var pixels = Math.max(doc.documentElement.clientWidth, win.innerWidth || 0) *
+                 Math.max(doc.documentElement.clientHeight, win.innerHeight || 0);
+    if (pixels > 0 ) {
+      pixels = Math.max(pixels - total, 0) * pageBackgroundWeight;
+      if (paints[firstPaint] === undefined)
+        paints[firstPaint] = 0;
+      paints[firstPaint] += pixels;
+      total += pixels;
+    }
+    // Calculate the visual progress
+    if (total) {
+      for (var time in paints) {
+        if (paints.hasOwnProperty(time)) {
+          progress.push({'tm': time, 'area': paints[time]});
+        }
+      }
+      progress.sort(function(a,b){return a.tm - b.tm;});
+      var accumulated = 0;
+      for (var j = 0; j < progress.length; j++) {
+        accumulated += progress[j].area;
+        progress[j].progress = accumulated / total;
+      }
+    }
+  };
+
+  // Given the visual progress information, Calculate the speed index.
+  var CalculateSpeedIndex = function() {
+    if (progress.length) {
+      SpeedIndex = 0;
+      var lastTime = 0;
+      var lastProgress = 0;
+      for (var i = 0; i < progress.length; i++) {
+        var elapsed = progress[i].tm - lastTime;
+        if (elapsed > 0 && lastProgress < 1)
+          SpeedIndex += (1 - lastProgress) * elapsed;
+        lastTime = progress[i].tm;
+        lastProgress = progress[i].progress;
+      }
+    } else {
+      SpeedIndex = firstPaint;
+    }
+  };
+
+  /****************************************************************************
+    Main flow
+  ****************************************************************************/
+  var rects = [];
+  var progress = [];
+  var firstPaint;
+  var SpeedIndex;
+  var pageBackgroundWeight = 0.1;
+  try {
+    var navStart = win.performance.timing.navigationStart;
+    GetRects();
+    GetRectTimings();
+    GetFirstPaint();
+    CalculateVisualProgress();
+    CalculateSpeedIndex();
+  } catch(e) {
+  }
+  /* Debug output for testing
+  var dbg = '';
+  dbg += "Paint Rects\n";
+  for (var i = 0; i < rects.length; i++)
+    dbg += '(' + rects[i].area + ') ' + rects[i].tm + ' - ' + rects[i].url + "\n";
+  dbg += "Visual Progress\n";
+  for (var i = 0; i < progress.length; i++)
+    dbg += '(' + progress[i].area + ') ' + progress[i].tm + ' - ' + progress[i].progress + "\n";
+  dbg += 'First Paint: ' + firstPaint + "\n";
+  dbg += 'Speed Index: ' + SpeedIndex + "\n";
+  console.log(dbg);
+  */
+  return SpeedIndex;
+};
+
+
+module.exports = RUMSpeedIndex;
+
+}, {}]}, {}, {"1":""})
