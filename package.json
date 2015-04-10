@@ -9,10 +9,11 @@
   "dependencies": {},
   "devDependencies": {
     "duo-test": "^0.3.13",
+    "duo-uglify": "0.0.1",
     "sinon": "^1.14.1"
   },
   "scripts": {
-    "build": "duo --stdout src/perf-hunter.js > build/index.js",
+    "build": "duo --use duo-uglify --stdout src/perf-hunter.js > build/index.js",
     "build-test": "duo --stdout test/unit/index_test.js > build/test.js",
     "test": "npm run test-unit",
     "test-unit": "npm run build-test && duo-test -B build/test.js -p test/unit/ phantomjs",
