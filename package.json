@@ -1,6 +1,6 @@
 {
   "name": "perf-hunter",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Collects performance metrics in the browser",
   "main": "build/index.js",
   "directories": {
